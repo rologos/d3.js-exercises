@@ -4,5 +4,27 @@ const svg = d3.select(".responsive-svg-container")
     .style("border", "1px solid black");
 
  d3.csv("./data/data.csv", d => {
-    console.log(d);
-});
+    return {
+        technology: d.technology,
+        count: +d.count
+    }
+}).then( data => {
+    data.sort((a, b) => b.count - a.count);
+    createViz(data);
+})
+
+const createViz = (data) => {
+    const barHeight = 20;
+    svg
+    .selectAll("rect")
+    .data(data)
+    .join("rect")
+    .attr("class", d => {
+        console.log(d);
+        return `bar bar-${d.technology}`;
+    })
+    .attr("width", d => d.count)
+    .attr("height", barHeight)
+    .attr("x", 0)
+    .attr("y", (d, i) => (barHeight + 5) * i)
+};
