@@ -27,4 +27,5 @@ const createViz = (data) => {
     .attr("height", barHeight)
     .attr("x", 0)
     .attr("y", (d, i) => (barHeight + 5) * i)
-};
+    .attr("fill", d => d.technology == "D3.js" ? "yellowgreen" : "skyblue")
+};  
