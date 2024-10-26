@@ -24,10 +24,13 @@ const createViz = (data) => {
         .range([0,700])
         .paddingInner(0.2);
 
-    svg
-    .selectAll("rect")
+    const barAndLabel = svg
+    .selectAll("g")
     .data(data)
-    .join("rect")
+    .join("g")
+    .attr("transform", d => `translate(0, ${yScale(d.technology)})`);
+
+    barAndLabel.append("rect")
     .attr("class", d => {
         console.log(d);
         return `bar bar-${d.technology}`;
@@ -35,6 +38,6 @@ const createViz = (data) => {
     .attr("width", d => xScale(d.count))
     .attr("height", yScale.bandwidth())
     .attr("x", 100)
-    .attr("y", d => yScale(d.technology))
+    .attr("y", 0)
     .attr("fill", d => d.technology == "D3.js" ? "yellowgreen" : "skyblue")
 };  
