@@ -1,6 +1,6 @@
 const svg = d3.select(".responsive-svg-container")
     .append("svg")
-    .attr("viewBox", "0 0 1200 1600")
+    .attr("viewBox", "0 0 600 700   ")
     .style("border", "1px solid black");
 
  d3.csv("./data/data.csv", d => {
@@ -14,7 +14,16 @@ const svg = d3.select(".responsive-svg-container")
 })
 
 const createViz = (data) => {
-    const barHeight = 20;
+
+    const xScale = d3.scaleLinear() 
+        .domain([0,1078])
+        .range([0, 450]);
+
+    const yScale = d3.scaleBand()
+        .domain(data.map(d => d.technology))
+        .range([0,700])
+        .paddingInner(0.2);
+
     svg
     .selectAll("rect")
     .data(data)
@@ -23,9 +32,9 @@ const createViz = (data) => {
         console.log(d);
         return `bar bar-${d.technology}`;
     })
-    .attr("width", d => d.count)
-    .attr("height", barHeight)
-    .attr("x", 0)
-    .attr("y", (d, i) => (barHeight + 5) * i)
+    .attr("width", d => xScale(d.count))
+    .attr("height", yScale.bandwidth())
+    .attr("x", 100)
+    .attr("y", d => yScale(d.technology))
     .attr("fill", d => d.technology == "D3.js" ? "yellowgreen" : "skyblue")
 };  
