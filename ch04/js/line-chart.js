@@ -30,7 +30,7 @@ const drawLineChart = (data) => {
 
     const innerChart = svg
         .append("g")
-        .attr("transform", `translate( ${margin.right}, ${margin.top})`);
+        .attr("transform", `translate( ${margin.left}, ${margin.top})`);
 
     const bottomAxis = d3.axisBottom(xScale)
         .tickFormat(d3.timeFormat("%b"));
@@ -66,11 +66,21 @@ const drawLineChart = (data) => {
         .style("font-size", "14px");
 
 
-    //add label
+
+    /*********************************************/
+                /*   add labels   */
+    /*********************************************/
     svg
         .append("text")
         .text("Temperature (°F)")
         .attr("y", 20)
+
+    innerChart
+        .append("text")
+            .text("Average temperature")
+            .attr("x",xScale(lastDate) + 10)
+            .attr("y",yScale(data[data.length -1].avg_temp_F))
+            .attr("fill",aubergine);
 
 
     /*********************************************/
