@@ -72,6 +72,26 @@ const drawLineChart = (data) => {
         .text("Temperature (°F)")
         .attr("y", 20)
 
+
+    /*********************************************/
+    /*              add area                     */
+    /*********************************************/
+
+    const areaGenerator = d3.area()
+        .x( d => xScale(d.date))
+        .y0( d => yScale(d.min_temp_F) )
+        .y1( d => yScale(d.max_temp_F))
+        .curve(d3.curveCatmullRom);
+
+    innerChart
+        .append("path")
+            .attr("d",areaGenerator(data))
+            .attr("fill",aubergine)
+            .attr("fill-opacity", 0.2);
+
+    /*********************************************/
+    /*   Line chart of the average temperature   */
+    /*********************************************/
     innerChart
         .selectAll("circle")
         .data(data)
@@ -92,5 +112,5 @@ const drawLineChart = (data) => {
         .attr("fill","none")
         .attr("stroke",aubergine);
 
-    c
+    
 };      
