@@ -11,9 +11,9 @@ const drawLineChart = (data) => {
     const height = 500;
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
-    const firstDate = d3.min(data, d => d.date)
-    const lastDate = d3.max(data, d => d.date)
-    const maxTemp = d3.max(data, d => d.min_temp_F)
+    const firstDate = new Date(2021, 0, 1, 0, 0, 0);
+    const lastDate = d3.max(data, d => d.date);
+    const maxTemp = d3.max(data, d => d.min_temp_F);
     const xScale = d3.scaleTime()
         .domain([firstDate,lastDate])
         .range([0,innerWidth]);
@@ -30,8 +30,21 @@ const drawLineChart = (data) => {
         .append("g")
         .attr("transform",`translate( ${margin.right}, ${margin.top})`);
 
-    const bottomAxis = d3.axisBottom(xScale);
-        innerChart.append("g")
-            .attr("class","axis-x")
-            .call(bottomAxis)
+    const bottomAxis = d3.axisBottom(xScale)
+            .tickFormat(d3.timeFormat("%b"));
+
+    innerChart.append("g")
+        .attr("class","axis-x")
+        .attr("transform", `translate(0, ${innerHeight})`)
+        .call(bottomAxis)
+
+    d3.selectAll(".axis-x text")
+        .attr("x", d => {
+            const currentMonth = d;
+            const nextMonth = new Date(2021, currentMonth.getMonth() + 1, 1);
+            return (xScale(nextMonth) - xScale(currentMonth)) / 2;
+        })
+        .attr("y","10px")
+        .style("font-family","Roboto, sans-serif")
+        .style("font-size","14px")
 };      
