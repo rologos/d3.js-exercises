@@ -22,8 +22,49 @@ const drawArc = (data) => {
         .append("svg")
         .attr("viewBox", [0, 0, pieChartWidth, pieChartHeight]);
 
-
+    //container of the graph
     const innerChart = svg
         .append("g")
             .attr("transform", `translate( ${pieChartWidth/2}, ${pieChartHeight/2})`);
+
+    /*********************************************/
+    /*              draw Arcs                   */
+    /*********************************************/
+    const arcGenerator = d3.arc()
+        .innerRadius(80)
+        .outerRadius(120)
+        .padAngle(0.02)
+        .cornerRadius(6);
+
+    innerChart
+        .append("path")
+        .attr("d", () => {
+            return arcGenerator({
+                startAngle: 0,
+                endAngle: angleDaysWithPrecipitation_rad
+            })
+        })
+        .attr("fill","#6EB7C2")
+
+
+    innerChart
+        .append("path")
+        .attr("d", () => {
+            return arcGenerator({
+                startAngle: angleDaysWithPrecipitation_rad,
+                endAngle: 2 * Math.PI
+            })
+        })
+        .attr("fill","#DCE2E2")
+
+    /*********************************************/
+    /*              add Labels                   */
+    /*********************************************/
+
+    const centroid = arcGenerator
+        .startAngle(0)
+        .endAngle(angleDaysWithPrecipitation_rad)
+        .centroid();
+
+    
 };
