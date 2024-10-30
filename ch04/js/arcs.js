@@ -61,10 +61,21 @@ const drawArc = (data) => {
     /*              add Labels                   */
     /*********************************************/
 
+    //calculate centroid
     const centroid = arcGenerator
         .startAngle(0)
         .endAngle(angleDaysWithPrecipitation_rad)
         .centroid();
 
+    //place label
+    innerChart
+        .append("text")
+        .text(d => d3.format(".0%")(percentageDaysWithPrecipitation/100))
+        .attr("x", centroid[0])
+        .attr("y", centroid[1])
+        .attr("text-anchor"," middle")
+        .attr("dominant-baseline", "middle")
+        .attr("fill", "white")
+        .style("font-weight", 500)
     
 };
