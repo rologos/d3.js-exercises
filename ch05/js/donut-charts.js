@@ -7,7 +7,7 @@ const drawDonutCharts = (data) => {
 
   const donutContainers = svg
     .append("g")
-    .attr("transorm", `translate(${margin.left},
+    .attr("transform", `translate(${margin.left},
         ${margin.top})`);
 
     /*********************************************/
@@ -53,7 +53,7 @@ const drawDonutCharts = (data) => {
     .data(annotatedData)
     .join("path")
       .attr("class",`.arc-${year}`)
-      .attr("d", arcGenerator);
-    
+      .attr("d", arcGenerator)
+      .attr("fill", d => colorScale(d.data.format));    
   });
 };
