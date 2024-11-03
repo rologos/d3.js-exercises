@@ -11,14 +11,25 @@ const drawDonutCharts = (data) => {
         ${margin.top})`);
 
     /*********************************************/
-    /*              add area                     */
+    /*              Prepare year data            */
     /*********************************************/
 
   const years = [1975, 1995, 2013];
+  const formats = data.columns.filter( format => format !== "year");
+
   years.forEach( year => {
     const donutContainer = donutContainers
       .append("g")
-        .attr("transform", `translate( ${xScale(year)}, ${innerHeight/2})`)
-  })
+        .attr("transform", `translate( ${xScale(year)}, ${innerHeight/2})`);
+  
+    const yearData = data.find( d => d.year === year);
 
-};
+    const formattedData = [];
+
+    formats.forEach( format => {
+      formattedData.push({ format: format,
+        sales: yearData[format] });
+    });
+    console.log(formattedData);
+  });
+ };
