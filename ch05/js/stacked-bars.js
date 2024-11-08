@@ -4,7 +4,7 @@ const drawStackedBars = (data) => {
     .keys(formatsInfo.map( f => f.id));
 
   const annotatedData = stackGenerator(data);
-
+  console.log(annotatedData);
   /*******************************/
   /*    Append the containers    */
   /*******************************/
@@ -21,14 +21,18 @@ const drawStackedBars = (data) => {
   /*    add scales    */
   /*******************************/
 
-  const maxUpperBoundary = d3.max(annotatedData[annotatedData.length() - 1], d => d[1])
+  const maxUpperBoundary = d3.max(annotatedData[annotatedData.length - 1], d => d[1])
 
   const yScale = d3.scaleLinear()
     .domain([0, maxUpperBoundary])
     .range([innerHeight, 0 ])
     .nice();
 
-  annotatedData.forEach( series => {
+  /*******************************/
+  /*    add bars    */
+  /*******************************/
+
+  annotatedData.forEach(series => {
     innerChart
       .selectAll(`.bar-${series.key}`)
       .data(series)
@@ -36,9 +40,9 @@ const drawStackedBars = (data) => {
         .attr("class", d => `bar-${series.key}`)
         .attr("x", d => xScale(d.data.year))
         .attr("y", d => yScale(d[1]))
-        .attr("width", xScale.bandwith())
+        .attr("width", xScale.bandwidth())
         .attr("height", d => yScale(d[0]) - yScale(d[1]))
         .attr("fill", colorScale(series.key));
-  })
+  });
 
 };
