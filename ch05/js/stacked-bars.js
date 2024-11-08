@@ -21,7 +21,11 @@ const drawStackedBars = (data) => {
   /*    add scales    */
   /*******************************/
 
-  const xScale = d3.scaleLinear()
-    .domain([0, ])
+  const maxUpperBoundary = d3.max(annotatedData[annotatedData.length() - 1], d => d[1])
+
+  const yScale = d3.scaleLinear()
+    .domain([0, maxUpperBoundary])
+    .range([innerHeight, 0 ])
+    .nice();
 
 };
